@@ -3,6 +3,7 @@
 /classes
 /checkouts
 resources/public/js/main.js
+.lein-repl-history
 pom.xml
 *.swp
 *.jar

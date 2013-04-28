@@ -8,7 +8,8 @@
                  [jayq "2.3.0"]
                  ]
   :plugins [[lein-ring "0.8.3"]
-            [lein-cljsbuild "0.3.0"]]
+            [lein-cljsbuild "0.3.0"]
+            [lein-tarsier "0.10.0"]]
   :ring {:handler checklist.handler/app}
   :profiles
   {:dev {:dependencies [[ring-mock "0.1.3"]]}}
