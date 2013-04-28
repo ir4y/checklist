@@ -16,12 +16,23 @@
       uuid
       (recur util/new-uuid))))
 
-(defn insert_ckeck [check_text]
+(defn insert-ckeck [check_text]
   (let [uuid (get-uuid)]
     (wcar (car/hset uuid "text" check_text))
     (wcar (car/hset uuid "done" false))
     uuid))
 
+(defn get-check [uuid]
+  (wcar
+    [(car/hget uuid "text") (car/hget uuid "done")]))
+
+(defn set-done [uuid done]
+  (wcar (car/hset uuid "done" done)))
+
+;(set-done "0eeefa01-43a5-4e35-acd1-c93eab8d6fc4" true)
+;(get-check "0eeefa01-43a5-4e35-acd1-c93eab8d6fc4")
+;(set-done "0eeefa01-43a5-4e35-acd1-c93eab8d6fc4" false)
+;(get-check "0eeefa01-43a5-4e35-acd1-c93eab8d6fc4")
 ;(util/new-uuid)
 ;(get-uuid)
 ;(insert_ckeck "hello.jpg")
