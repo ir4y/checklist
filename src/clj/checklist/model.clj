@@ -37,22 +37,7 @@
   (map to-hash (wcar (car/smembers "scheck"))))
 
 
-
-(set-done "3f77209b-1e85-4982-b3db-705b221bfbb7" "true")
-
-;(defn test-destruct [{uuid :uuid {text :text done :done} :values}]
-;  (println uuid text done)
-;  uuid)
-
-;(map test-destruct (get-checklists))
-;(set-done "0eeefa01-43a5-4e35-acd1-c93eab8d6fc4" true)
-;(get-check "0eeefa01-43a5-4e35-acd1-c93eab8d6fc4")
-;(set-done "0eeefa01-43a5-4e35-acd1-c93eab8d6fc4" false)
-;(get-check "0eeefa01-43a5-4e35-acd1-c93eab8d6fc4")
-;(util/new-uuid)
-;(get-uuid)
-;(insert_ckeck "hello.jpg")
-;
-;(wcar (car/sadd "scheck" (util/new-uuid)))
-;(wcar (car/hset "adca172b-79b5-487f-9d70-fbdbf7c52e4c"  "text" "hello.jpg"))
-;(wcar (car/hset "adca172b-79b5-487f-9d70-fbdbf7c52e4c"  "done" false))
+(defn delete-check [uuid]
+  (wcar (car (srem "scheck" uuid))
+        (car (hdel uuid "text"))
+        (car (hdel uuid "done"))))
