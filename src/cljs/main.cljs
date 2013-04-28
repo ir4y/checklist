@@ -17,14 +17,6 @@
   ["input"] (em/set-attr :checked (if (= "true" done) "checked" "")))
 
 
-(defn destruct-proxy [check-item]
-  (let [uuid (.-uuid check-item)
-        values (.-values check-item)
-        text (.-text values)
-        done (.-done values)]
-  (ju/log done)
-  (checklist-item uuid text done)))
-
 (defn setup-done-handler []
   (defn on-checkbox-click [e]
     (this-as this
@@ -35,6 +27,7 @@
   (jq/unbind ($ "._check_list_item") "click" on-checkbox-click)
   (jq/bind ($ "._check_list_item") "click" on-checkbox-click))
 
+
 (defn press-enter [e] 
   (this-as this
            (let [self ($ this)
@@ -44,6 +37,16 @@
                   (-> ($ "#my_checklist") (.append (checklist-item  "" value false)))
                   (setup-done-handler))))))
 
+
+(defn destruct-proxy [check-item]
+  (let [uuid (.-uuid check-item)
+        values (.-values check-item)
+        text (.-text values)
+        done (.-done values)]
+  (checklist-item uuid text done)))
+;  (setup-done-handler)))
+
+
 (defn load-initial-data []
   (jqm/let-ajax [check-list {:url "/checklist" :dataType :json}]
     (em/at js/document
@@ -52,5 +55,4 @@
 
 (jqm/ready 
   (load-initial-data)
-  (setup-done-handler)
   (jq/bind ($ "#new_checklist") "keyup" press-enter))
