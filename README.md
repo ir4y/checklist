@@ -1,6 +1,7 @@
 # checklist
 
 Simple checklist project
+http://checklist.allsol.ru/index.html
 
 ## Prerequisites
 
