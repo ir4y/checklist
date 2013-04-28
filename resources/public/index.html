@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Test your code</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+     form.code-form textarea {
+        border: 1px solid #e2e2e2;
+        background: #fff;
+        width: 100%;
+        padding: 5px;
+        font-size: 13px;
+        font-family: 'Open Sans', sans-serif;
+        display: inline-block;
+        vertical-align: bottom;
+        height: 80px;
+      }
+      form.code_form textarea{
+      	width: 100%;
+	}
+	.done{
+		text-decoration: line-through;
+	}
+
+
+      @media (max-width: 980px) {
+        /* Enable use of floated navbar text */
+        .navbar-text.pull-right {
+          float: none;
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+      }
+    </style>
+    <link href="/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <script src="/bootstrap/js/jquery-1.9.1.min.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" src="/js/main.js"></script>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#">This day checklist</a>
+        </div>
+      </div>
+    </div>
+ 
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul id="nav_links" class="nav nav-list">
+                <li><p>Create tasks.</p></li>
+                <li><p>Check it if it's done.</p></li>
+                <li><p>Delete if it's unusing.</p></li>                
+                <li><p>Have fun ;)</p></li>
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9">
+          <div class="hero-unit">
+            <h1>Your day checklist</h1>	    
+          </div>    
+	  <ul id="my_checklist">
+		  <li><label><input class="_ckeck_list_item" type="checkbox">Hello world</label></li>
+	  </ul>
+	  <input id="new_checklist">
+        </div><!--/span-->
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <p>&copy; ir4y.ix 2013</p>
+      </footer>
+
+    </div><!--/.fluid-container-->        
+  </body>
+</html>
