@@ -15,8 +15,7 @@
   ["span"] (em/content text)
   ["label"] (em/set-attr :class (if (= "true" done) "done" ""))
   ["a"] (em/set-attr :rel uuid)
-  (when (= "true" done)
-    ["input"] (em/set-attr :checked "checked")))
+  ["input"] (when (= "true" done) (em/set-attr :checked "checked")))
 
 
 (defn setup-done-handler []
