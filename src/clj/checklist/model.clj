@@ -16,7 +16,7 @@
       uuid
       (recur util/new-uuid))))
 
-(defn insert-ckeck [check_text]
+(defn insert-check [check_text]
   (let [uuid (get-uuid)]
     (wcar (car/hset uuid "text" check_text))
     (wcar (car/hset uuid "done" false))

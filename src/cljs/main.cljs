@@ -11,7 +11,7 @@
   ;stupid clojure script bug 
   ;http://stackoverflow.com/questions/15764262/different-behavior-of-get-in-clojure-and-in-clojurescript/15768293#15791175
   [uuid text done]
-  ["li"] (em/set-attr :id uuid)
+  ["input"] (em/set-attr :id uuid)
   ["span"] (em/content text)
   ["label"] (em/set-attr :class (if (= "true" done) "done" ""))
   ["input"] (em/set-attr :checked (if (= "true" done) "checked" "")))
@@ -20,8 +20,11 @@
 (defn setup-done-handler []
   (defn on-checkbox-click [e]
     (this-as this
-           (let [self ($ this)]
-             (if (-> self (.prop "checked"))
+           (let [self ($ this)
+                 uuid (-> self (.attr "id"))
+                 done (-> self (.prop "checked"))]
+             (jqm/let-ajax [_ {:url "/set_done" :type :post :data {:uuid uuid :done done}}]
+             (if done)
                (-> self (.parent) (.addClass "done"))
                (-> self (.parent) (.removeClass "done"))))))
   (jq/unbind ($ "._check_list_item") "click" on-checkbox-click)
@@ -33,8 +36,8 @@
            (let [self ($ this)
                  value (-> self (.val))]
              (when (= (.-which e) 13)
-               (do
-                  (-> ($ "#my_checklist") (.append (checklist-item  "" value false)))
+               (jqm/let-ajax [uuid {:url "/new_check" :type :post :data {:text value}}]
+                  (-> ($ "#my_checklist") (.append (checklist-item  uuid value "false")))
                   (setup-done-handler))))))
 
 

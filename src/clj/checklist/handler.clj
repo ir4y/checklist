@@ -11,7 +11,9 @@
   'ring.util.response)
 
 (defroutes app-routes
-  (GET "/checklist" [] (response (model/get-checklists)))
+  (GET  "/checklist" [] (response (model/get-checklists)))
+  (POST "/set_done" [uuid done] (response (model/set-done uuid done)))
+  (POST "/new_check" [text] (response (model/insert-check text)))
   (route/resources "/")
   (route/not-found "Not Found"))
 
