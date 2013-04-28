@@ -14,7 +14,9 @@
   ["input"] (em/set-attr :id uuid)
   ["span"] (em/content text)
   ["label"] (em/set-attr :class (if (= "true" done) "done" ""))
-  ["input"] (em/set-attr :checked (if (= "true" done) "checked" "")))
+  ["a"] (em/set-attr :rel uuid)
+  (when (= "true" done)
+    ["input"] (em/set-attr :checked "checked")))
 
 
 (defn setup-done-handler []
@@ -27,8 +29,19 @@
              (if done)
                (-> self (.parent) (.addClass "done"))
                (-> self (.parent) (.removeClass "done"))))))
+  (defn on-del-click [e]
+    (this-as this
+             (let [self ($ this)
+                   uuid (-> self (.attr "rel"))]
+               (jqm/let-ajax [_ {:url "/delete" :type :post :data {:uuid uuid}}]
+                 (-> self (.parent) (.remove))))))
   (jq/unbind ($ "._check_list_item") "click" on-checkbox-click)
-  (jq/bind ($ "._check_list_item") "click" on-checkbox-click))
+  (jq/bind ($ "._check_list_item") "click" on-checkbox-click)
+  (jq/unbind ($ "._delete") "click" on-del-click)
+  (jq/bind ($ "._delete") "click" on-del-click))
+
+
+
 
 
 (defn press-enter [e] 
