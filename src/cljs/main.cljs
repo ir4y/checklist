@@ -44,13 +44,13 @@
         text (.-text values)
         done (.-done values)]
   (checklist-item uuid text done)))
-;  (setup-done-handler)))
 
 
 (defn load-initial-data []
   (jqm/let-ajax [check-list {:url "/checklist" :dataType :json}]
     (em/at js/document
-           ["#my_checklist"] (em/content (map destruct-proxy check-list)))))
+           ["#my_checklist"] (em/content (map destruct-proxy check-list)))
+    (setup-done-handler)))
 
 
 (jqm/ready 
