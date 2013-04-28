@@ -6,6 +6,7 @@
                  [com.taoensso/carmine "1.6.0"]
                  [enfocus "1.0.1"]
                  [jayq "2.3.0"]
+                 [ring/ring-json "0.2.0"]
                  ]
   :plugins [[lein-ring "0.8.3"]
             [lein-cljsbuild "0.3.0"]

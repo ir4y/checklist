@@ -1,12 +1,15 @@
 (ns checklist.handler
   (:use compojure.core)
   (:require [compojure.handler :as handler]
-            [compojure.route :as route]))
+            [compojure.route :as route]
+            [checklist.model :as model]
+            [ring.middleware.json :only [wrap-json-responce]]
+            [ring.util.response :only [response]]))
 
 (defroutes app-routes
-  (GET "/" [] "Hello World")
+  (GET "/checklists" [] (response (model/get-checklists)))
   (route/resources "/")
   (route/not-found "Not Found"))
 
 (def app
-  (handler/site app-routes))
+  (wrap-json-response (handler/site app-routes)))

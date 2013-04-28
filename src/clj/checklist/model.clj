@@ -29,6 +29,14 @@
 (defn set-done [uuid done]
   (wcar (car/hset uuid "done" done)))
 
+(defn to-hash [uuid]
+  (let [result (get-check uuid)]
+    {uuid {"text" (get result 0) "done" (get result 1)}}))
+
+(defn get-checklists []
+  (map to-hash (wcar (car/smembers "scheck"))))
+
+(get-checklists)
 ;(set-done "0eeefa01-43a5-4e35-acd1-c93eab8d6fc4" true)
 ;(get-check "0eeefa01-43a5-4e35-acd1-c93eab8d6fc4")
 ;(set-done "0eeefa01-43a5-4e35-acd1-c93eab8d6fc4" false)
