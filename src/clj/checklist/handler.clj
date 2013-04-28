@@ -10,7 +10,7 @@
 
 (defroutes app-routes
   (GET  "/checklist" [] (response (model/get-checklists)))
-  (POST "/set_done" [uuid done] {:result (response (model/set-done uuid done))})
+  (POST "/set_done" [uuid done] (response {:result (model/set-done uuid done)}))
   (POST "/new_check" [text] (response (model/insert-check text)))
   (POST "/delete" [uuid] (response {:result (model/delete-check uuid)}))
   (route/resources "/")

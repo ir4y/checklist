@@ -23,11 +23,11 @@
     (this-as this
            (let [self ($ this)
                  uuid (-> self (.attr "id"))
-                 done (-> self (.prop "checked"))]
+                 done (-> self (.is ":checked"))]
              (jqm/let-ajax [_ {:url "/set_done" :type :post :data {:uuid uuid :done done}}]
-             (if done)
+             (if done
                (-> self (.parent) (.addClass "done"))
-               (-> self (.parent) (.removeClass "done"))))))
+               (-> self (.parent) (.removeClass "done")))))))
   (defn on-del-click [e]
     (this-as this
              (let [self ($ this)
