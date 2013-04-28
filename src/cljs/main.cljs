@@ -7,20 +7,33 @@
   (:use [jayq.core :only [$ css inner]]))
 
 (em/defsnippet checklist-item "/fragments.html" ["#checklist-item"] 
-  [text]
-  ["li"] (em/set-attr :id "")
-  ["span"] (em/content text))
+  ;[{uuid :uuid {text :text done :done} :values}]
+  ;stupid clojure script bug 
+  ;http://stackoverflow.com/questions/15764262/different-behavior-of-get-in-clojure-and-in-clojurescript/15768293#15791175
+  [uuid text done]
+  ["li"] (em/set-attr :id uuid)
+  ["span"] (em/content text)
+  ["label"] (em/set-attr :class (if (= "true" done) "done" ""))
+  ["input"] (em/set-attr :checked (if (= "true" done) "checked" "")))
 
+
+(defn destruct-proxy [check-item]
+  (let [uuid (.-uuid check-item)
+        values (.-values check-item)
+        text (.-text values)
+        done (.-done values)]
+  (ju/log done)
+  (checklist-item uuid text done)))
 
 (defn setup-done-handler []
-  (defn on-ckeckbox-click [e]
+  (defn on-checkbox-click [e]
     (this-as this
            (let [self ($ this)]
              (if (-> self (.prop "checked"))
                (-> self (.parent) (.addClass "done"))
                (-> self (.parent) (.removeClass "done"))))))
-  (jq/unbind ($ "._ckeck_list_item") "click" on-ckeckbox-click)
-  (jq/bind ($ "._ckeck_list_item") "click" on-ckeckbox-click))
+  (jq/unbind ($ "._check_list_item") "click" on-checkbox-click)
+  (jq/bind ($ "._check_list_item") "click" on-checkbox-click))
 
 (defn press-enter [e] 
   (this-as this
@@ -28,9 +41,16 @@
                  value (-> self (.val))]
              (when (= (.-which e) 13)
                (do
-                  (-> ($ "#my_checklist") (.append (checklist-item value)))
+                  (-> ($ "#my_checklist") (.append (checklist-item  "" value false)))
                   (setup-done-handler))))))
 
+(defn load-initial-data []
+  (jqm/let-ajax [check-list {:url "/checklist" :dataType :json}]
+    (em/at js/document
+           ["#my_checklist"] (em/content (map destruct-proxy check-list)))))
+
+
 (jqm/ready 
+  (load-initial-data)
   (setup-done-handler)
   (jq/bind ($ "#new_checklist") "keyup" press-enter))
