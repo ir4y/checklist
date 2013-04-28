@@ -36,6 +36,10 @@
 (defn get-checklists []
   (map to-hash (wcar (car/smembers "scheck"))))
 
+
+
+(set-done "3f77209b-1e85-4982-b3db-705b221bfbb7" "true")
+
 ;(defn test-destruct [{uuid :uuid {text :text done :done} :values}]
 ;  (println uuid text done)
 ;  uuid)

@@ -3,8 +3,6 @@
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
             [checklist.model :as model]))
- ;           [ring.middleware.json :only [wrap-json-responce]]
-;            [ring.util.response :only [response]]))
 
 (use 
   'ring.middleware.json
@@ -12,7 +10,7 @@
 
 (defroutes app-routes
   (GET  "/checklist" [] (response (model/get-checklists)))
-  (POST "/set_done" [uuid done] (response (model/set-done uuid done)))
+  (POST "/set_done" [uuid done] {:result (response (model/set-done uuid done))})
   (POST "/new_check" [text] (response (model/insert-check text)))
   (route/resources "/")
   (route/not-found "Not Found"))
