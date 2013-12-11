@@ -6,7 +6,7 @@
                  [com.taoensso/carmine "2.4.0"]
                  [enfocus "1.0.1"]
                  [jayq "2.3.0"]
-                 [ring/ring-json "0.2.0"]
+                 [cheshire "5.2.0"]
                  [http-kit "2.1.13"]]
   :plugins [[lein-cljsbuild "0.3.0"]]
   :source-paths ["src/clj" "src/cljs"]

@@ -21,7 +21,7 @@
   (let [uuid (get-uuid)]
     (wcar (car/hset uuid "text" check_text))
     (wcar (car/hset uuid "done" false))
-    uuid))
+    {:uuid uuid :text check_text :done false}))
 
 
 (defn get-check [uuid]
@@ -30,12 +30,13 @@
 
 
 (defn set-done [uuid done]
-  (wcar (car/hset uuid "done" done)))
+  (wcar (car/hset uuid "done" done))
+  {:uuid uuid :done done})
 
 
 (defn to-hash [uuid]
   (let [result (get-check uuid)]
-    {:lookup "fake" :uuid uuid :values {:text (get result 0) :done (get result 1)}}))
+    {:uuid uuid :values {:text (get result 0) :done (get result 1)}}))
 
 
 (defn get-checklists []
@@ -45,4 +46,5 @@
 (defn delete-check [uuid]
   (wcar (car/srem "scheck" uuid)
         (car/hdel uuid "text")
-        (car/hdel uuid "done")))
+        (car/hdel uuid "done"))
+  uuid)

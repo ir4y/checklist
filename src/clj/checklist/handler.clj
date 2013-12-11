@@ -1,24 +1,36 @@
 (ns checklist.handler
-  (:use compojure.core)
+  (:use compojure.core
+        ring.util.response)
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
+            [cheshire.core :as json]
             [org.httpkit.server :as kit]
             [checklist.model :as model]))
 
-(use 
-  'ring.middleware.json
-  'ring.util.response)
+
+(defn rpc-handler [data]
+  (let [json (json/parse-string data)]
+    (json/generate-string
+      {:method (json "method")
+       :result (case (json "method")
+                 "set-done" (model/set-done (json "uuid") (json "done"))
+                 "insert-check" (model/insert-check (json "text"))
+                 "delete-check" (model/delete-check (json "uuid")))})))
+
+
+(defn api-handler [request]
+ (kit/with-channel request channel
+  (kit/on-receive channel (fn [data]
+                            (kit/send! channel (rpc-handler data))))))
+
 
 (defroutes app-routes
   (GET "/" [] (resource-response "index.html" {:root "public"}))
-  (GET  "/checklist" [] (response (model/get-checklists)))
-  (POST "/set_done" [uuid done] (response {:result (model/set-done uuid done)}))
-  (POST "/new_check" [text] (response (model/insert-check text)))
-  (POST "/delete" [uuid] (response {:result (model/delete-check uuid)}))
+  (GET "/rpc"  [] api-handler)
+  (GET  "/checklist" [] (response (json/generate-string (model/get-checklists))))
   (route/resources "/")
   (route/not-found "Not Found"))
 
 
 (defn -main [& args]
-  (kit/run-server (wrap-json-response
-                    (handler/site #'app-routes)) {:port 8080}))
+  (kit/run-server (handler/site #'app-routes) {:port 8080}))
